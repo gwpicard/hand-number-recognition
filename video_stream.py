@@ -14,6 +14,9 @@ while(True):
     # Capture frame from video object (webcam)
     check, frame = video.read()
 
+    # flip frame horizontally
+    frame = cv2.flip(frame, +1);
+
     # # Display the resulting frame
     cv2.imshow('frame', frame)
 
