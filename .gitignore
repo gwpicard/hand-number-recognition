@@ -1,3 +1,6 @@
+# checkpoint files
+*.pth
+
 # Data files
 data/
 images/
