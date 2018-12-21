@@ -1,6 +1,6 @@
 import argparse
 import cv2
-from utils import create_data, convert_image, overlay_labels
+from utils import create_data, convert_image, overlay_labels, overlay_top_label
 from model import load_model, predict_label
 
 # include arg parser to take custom number of photos for dataset
@@ -63,13 +63,14 @@ while(True):
         break
 
     # update inference every 5 frames
-    if infer and (frames % 5 == 0 or frames == 0):
+    if infer and (frames % 8 == 0 or frames == 0):
         image = convert_image(frame)
         predict = predict_label(model, image)
 
     # overlay labels if infer flag is select
     if infer:
         frame = overlay_labels(frame, predict)
+        # frame = overlay_top_label(frame, top_label)
 
     # display the image
     cv2.imshow('frame', frame)

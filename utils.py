@@ -91,3 +91,24 @@ def overlay_labels(frame, predict):
                 line_type)
 
     return frame
+
+def overlay_top_label(frame, top_label):
+    '''
+    Takes top prediction label and overlays on top
+    of webcam image stream
+    '''
+
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    pos = (10,700)
+    font_size = 1
+    font_colour = (255,255,255)
+    line_type = 2
+
+    # overlay labels on top of frame
+    cv2.putText(frame, str(top_label),
+                pos,font,
+                font_size,
+                font_colour,
+                line_type)
+
+    return frame
