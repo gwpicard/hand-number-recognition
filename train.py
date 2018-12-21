@@ -5,7 +5,7 @@ from model import load_model, train_model
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('data_dir', action="store")
+parser.add_argument('--data_dir', action="store", required=True)
 parser.add_argument('--save_dir', action="store", dest="save_directory")
 parser.add_argument('--epochs', action="store", dest="epochs", type=int)
 
@@ -16,7 +16,8 @@ data_dir = args.data_dir
 train_dataset, valid_dataset, test_dataset = load_data(data_dir)
 
 # create model, loss function and optimiser
-model, loss_function, optimiser = load_model()
+model, loss_function, optimiser = load_model('checkpoint.pth')
+model.train()
 
 # train model - return checkpoint
 checkpoint = train_model(model, loss_function, optimiser, train_dataset, valid_dataset, args.epochs)

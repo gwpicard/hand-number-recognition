@@ -5,6 +5,7 @@ import cv2
 import datetime
 import numpy as np
 import torch
+from torchvision import transforms, datasets
 from PIL import Image
 
 # function to save and build dataset
@@ -19,27 +20,29 @@ def create_data(key, frame):
     cv2.imwrite(name, frame)
 
 def load_data(data_dir):
-    train_dir = data_dir + '/train'
-    valid_dir = data_dir + '/valid'
-    test_dir = data_dir + '/test'
+    '''
+    Load training, validation and test data from datasets
+    '''
+    train_dir = data_dir + '/training'
+    valid_dir = data_dir + '/validation'
+    test_dir = data_dir + '/testing'
 
-    # define data transforms
+    # Define transforms for the training, validation, and testing sets
     train_transforms = transforms.Compose([
-    transforms.RandomRotation(30),
-    transforms.RandomResizedCrop(224),
-    transforms.RandomHorizontalFlip(),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
-    ])
+        transforms.Resize((200, 200)), # square resize
+        transforms.RandomRotation(30),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
 
     val_test_transforms = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])
-    ])
+        transforms.Resize((200, 200)), # square resize
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406],
+                                 std=[0.229, 0.224, 0.225])
+        ])
 
     # Load the datasets with ImageFolder
     train_dataset = datasets.ImageFolder(train_dir, transform=train_transforms)
@@ -53,19 +56,10 @@ def convert_image(image_array):
     Scales, crops, and normalizes a PIL image for a PyTorch model,
     returns an Numpy array
     '''
-    overlay = Image.fromarray(image_array)
+    image = Image.fromarray(image_array)
 
     # resize image
-    overlay.thumbnail((224,224), Image.ANTIALIAS)
-
-    # create base layer canvas
-    image = Image.new("RGB", (224,224))
-
-    width, height = overlay.size
-
-    # place resized image on canvas
-    image.paste(overlay, ((224-width)//2,
-                    (224-height)//2))
+    image = image.resize((200, 200))
 
     # convert integers to 0-1 floats
     np_image = np.array(image)
@@ -76,9 +70,9 @@ def convert_image(image_array):
     np_image /= [0.229, 0.224, 0.225]
 
     # convert to tensor
-    np_image = np_image.transpose()
-    py_image = torch.from_numpy(np_image).type(torch.FloatTensor)
-    py_image.unsqueeze_(0)
+    py_image = np_image.transpose()
+    py_image = torch.from_numpy(py_image).type(torch.FloatTensor)
+    py_image = py_image.unsqueeze_(0)
 
     return py_image
 
