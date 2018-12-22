@@ -29,7 +29,7 @@ To train a new model:
 
 `--data-dir` specificies the directory of the training data, and `--epochs` specifies the number of epochs you want to train your model for. The training function will automatically save a checkpoint after it completes so you can leave it training without needing to worry about the progress.
 
-## Using the model for inference with live webcam feed
+## Using the model for Inference with Live Webcam Feed
 `python3 video_stream.py -i [-t]`
 
 `-i` sets program to inference mode, and the optional `[-t]` flag can be selected if you would like to the see the label of the top predicted category as opposed to the output probability for every label.
