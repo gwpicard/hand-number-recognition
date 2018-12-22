@@ -32,4 +32,4 @@ To train a new model:
 ## Using the model for Inference with Live Webcam Feed
 `python3 video_stream.py -i [-t]`
 
-`-i` sets program to inference mode, and the optional `[-t]` flag can be selected if you would like to the see the label of the top predicted category as opposed to the output probability for every label.
+`-i` sets the program to inference mode, and the optional `[-t]` flag can be selected if you would like to the see the label of the top predicted category as opposed to the output probability for every label.
