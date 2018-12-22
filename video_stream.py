@@ -7,6 +7,7 @@ from model import load_model, predict_label
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-i','--infer', action="store_true", required=False, dest="infer")
+parser.add_argument('-t','--top_label', action="store_true", required=False, dest="top_label")
 parser.add_argument('-n','--n_photos', action="store", dest="n_photos", type=int)
 parser.add_argument('-c','--cat', action="store", dest="cat", type=str)
 
@@ -16,12 +17,13 @@ args = parser.parse_args()
 n_photos = args.n_photos # number of photos to take
 cat = args.cat # label of data to be captured
 infer = args.infer # whether to infer labels
+top_label = (True if args.top_label else False)
 
 # both n_photos and category label should be chosen
 if (n_photos and cat is None) or (n_photos is None and cat):
     raise Exception('Both number of photos and category label should be specified')
 
-# print video capture mode
+# print video capture mode to terminal
 if args.n_photos:
     print("Capturing data..")
     cat = ord(cat)
@@ -29,8 +31,8 @@ if args.n_photos:
 if args.infer:
     print("Inferring from model..")
 
+# load model for inference if infer flag selected
 if infer:
-    # load model for inference if infer flag
     model,_,_ = load_model('checkpoint.pth')
 
 # create video object
@@ -65,12 +67,15 @@ while(True):
     # update inference every 5 frames
     if infer and (frames % 5 == 0 or frames == 0):
         image = convert_image(frame)
-        predict = predict_label(model, image)
+        predict = predict_label(model, image, top_label)
 
     # overlay labels if infer flag is select
     if infer:
-        # frame = overlay_labels(frame, predict)
-        frame = overlay_top_label(frame, predict)
+        if top_label:
+            frame = overlay_top_label(frame, predict)
+        else:
+            frame = overlay_labels(frame, predict)
+
 
     # display the image
     cv2.imshow('frame', frame)

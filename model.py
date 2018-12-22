@@ -30,9 +30,12 @@ def load_model(filepath=None):
     model.fc = classifier
 
     if filepath:
-        # load checkpoint parameters from training
-        checkpoint = torch.load(filepath)
-        model.load_state_dict(checkpoint['model_state_dict'])
+        try:
+            # load checkpoint parameters from training
+            checkpoint = torch.load(filepath)
+            model.load_state_dict(checkpoint['model_state_dict'])
+        except:
+            print("checkpoint.pth file missing")
 
     # define loss function
     loss_function = nn.CrossEntropyLoss()
@@ -43,6 +46,10 @@ def load_model(filepath=None):
     return model, loss_function, optimiser
 
 def train_model(model, loss_function, optimiser, train_dataset, valid_dataset, epochs=None):
+    '''
+    Function to train the model in terminal, returns a checkpoint instance to
+    save model and optimizer parameters after training
+    '''
     # Define the dataloaders
     trainloader = torch.utils.data.DataLoader(train_dataset, batch_size=64, shuffle=True)
     validloader = torch.utils.data.DataLoader(valid_dataset, batch_size=64, shuffle=True)
@@ -53,7 +60,7 @@ def train_model(model, loss_function, optimiser, train_dataset, valid_dataset, e
     # define loss function - CrossEntropyLoss
     loss_function = nn.CrossEntropyLoss()
 
-    # define Adam for fully-connected layer of model only (momentum-based)
+    # define optimiser - SGD with momentum
     optimizer = optim.SGD(model.parameters(),lr=0.001, momentum=0.5)
 
     # send model to CPU/GPU
@@ -66,7 +73,7 @@ def train_model(model, loss_function, optimiser, train_dataset, valid_dataset, e
 
     update_steps = 2
 
-    loss_hist = []
+    loss_hist = [] # keep track of model loss
 
     # train model
     for e in range(epochs):
@@ -138,13 +145,19 @@ def train_model(model, loss_function, optimiser, train_dataset, valid_dataset, e
 
                 model.train()
 
+    # create checkpoint instance
     checkpoint = {'model_state_dict':  model.state_dict(),
-                  'optimizer_state_dict': optimiser.state_dict()}
+                  'optimizer_state_dict': optimiser.state_dict(),
+                  'loss_hist': loss_hist}
 
     return checkpoint
 
-def predict_label(model, image):
-    model.eval();
+def predict_label(model, image, top_label=False):
+    '''
+    Given an image in Tensor form, predict the
+    associated label
+    '''
+    model.eval() # disable dropout
     with torch.no_grad():
         output = model.forward(image)
 
@@ -157,6 +170,8 @@ def predict_label(model, image):
 
         predict = sorted(zip(idx, probs), key=lambda x:x[0])
 
+    if top_label==True:
+        return idx[0] # return top label
 
-    # return predict # return all labels
-    return idx[0] # return top label
+    # else return all labels
+    return predict # return all labels
