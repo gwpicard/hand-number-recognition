@@ -8,7 +8,7 @@ This app was trained with a custom dataset built using the `video_stream.py` fil
 
 ## Jupyter Notebook Pre-reading
 
-Navigate to the Jupyter Notebook first to get a full rundown of how the system works, create the correct directories to build your own dataset, and a full explanation of how the system is trained.
+Navigate to the [Jupyter Notebook](https://github.com/gwpicard/hand_digit_recognition/blob/master/Model_notebook.ipynb) first to get a full rundown of how the system works, create the correct directories to build your own dataset, and a full explanation of how the system is trained.
 
 ## Capture data
 
