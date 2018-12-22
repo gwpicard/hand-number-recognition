@@ -158,5 +158,5 @@ def predict_label(model, image):
         predict = sorted(zip(idx, probs), key=lambda x:x[0])
 
 
-    return predict # return all labels
-    # return idx[0] # return top label
+    # return predict # return all labels
+    return idx[0] # return top label

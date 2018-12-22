@@ -99,8 +99,8 @@ def overlay_top_label(frame, top_label):
     '''
 
     font = cv2.FONT_HERSHEY_SIMPLEX
-    pos = (10,700)
-    font_size = 1
+    pos = (20, 700)
+    font_size = 3
     font_colour = (255,255,255)
     line_type = 2
 
