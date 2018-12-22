@@ -8,7 +8,7 @@ This app was trained with a custom dataset built using the `video_stream.py` fil
 
 ## Jupyter Notebook Pre-Reading
 
-Navigate to the Jupyter Notebook first to get a full rundown of how the system works, create the correct directories to build your own dataset,
+Navigate to the Jupyter Notebook first to get a full rundown of how the system works, create the correct directories to build your own dataset, and a full explanation of how the system is trained.
 
 ## Using the model for inference with live webcam feed
 python3 -m venv .venv
