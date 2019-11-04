@@ -1,6 +1,6 @@
 # Hand Digit Recognition
 
-A simple app that recognises digits from hand motions from a live webcam feed.
+A simple app that recognises numbers from hand gestures from a live webcam feed.
 
 ![test_gif.gif](test_gif.gif)
 
