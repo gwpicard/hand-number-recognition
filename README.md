@@ -1,4 +1,4 @@
-# Hand Digit Recognition
+# Hand Number Recognition
 
 A simple app that recognises numbers given hand gestures from a live webcam feed.
 
