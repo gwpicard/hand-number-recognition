@@ -1,4 +1,4 @@
-# Hand Number Recognition
+# Hand Gesture Number Recognition
 
 A simple app that recognises numbers given hand gestures from a live webcam feed.
 
