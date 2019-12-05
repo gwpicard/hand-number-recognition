@@ -1,6 +1,6 @@
 # Hand Gesture Number Recognition
 
-A simple app that recognises numbers given hand gestures from a live webcam feed.
+A simple app that recognises numbers from hand gestures using a live webcam feed.
 
 ![test_gif.gif](test_gif.gif)
 
